@@ -369,7 +369,7 @@ static const flex_int16_t yy_accept[18] =
 static const YY_CHAR yy_ec[256] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    2,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    2,    1,    1,    1,    1,    1,    1,    1,    4,
         5,    1,    1,    1,    1,    6,    1,    7,    7,    7,
@@ -672,7 +672,7 @@ YY_DECL
 		}
 
 	{
-#line 9 "lexer.l"
+#line 10 "lexer.l"
 
 #line 678 "lex.yy.c"
 
@@ -733,38 +733,38 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 10 "lexer.l"
+#line 11 "lexer.l"
 { return SQRT; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 11 "lexer.l"
+#line 12 "lexer.l"
 { yylval.numero = atof(yytext); return NUMERO; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 12 "lexer.l"
+#line 13 "lexer.l"
 { return '('; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 13 "lexer.l"
+#line 14 "lexer.l"
 { return ')'; }
 	YY_BREAK
 case 5:
 /* rule 5 can match eol */
 YY_RULE_SETUP
-#line 14 "lexer.l"
-; // ignorar espacios
+#line 15 "lexer.l"
+; // Ignorar espacios y saltos de línea
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 15 "lexer.l"
-{ return yytext[0]; } // cualquier otro carácter
+#line 16 "lexer.l"
+{ return yytext[0]; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 16 "lexer.l"
+#line 17 "lexer.l"
 ECHO;
 	YY_BREAK
 #line 771 "lex.yy.c"
@@ -1772,5 +1772,5 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 16 "lexer.l"
+#line 17 "lexer.l"
 

@@ -71,14 +71,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
-// Declaración de la función de Newton-Raphson
+// Declaraciones
 double newton_sqrt(double a);
-
-// Para errores
 void yyerror(const char *s);
 int yylex(void);
+
+// Importante: declarar yyin para que Bison sepa de dónde lee Flex
+extern FILE *yyin;
 
 #line 84 "parser.tab.c"
 
@@ -116,7 +116,7 @@ enum yysymbol_kind_t
   YYSYMBOL_5_ = 5,                         /* '('  */
   YYSYMBOL_6_ = 6,                         /* ')'  */
   YYSYMBOL_YYACCEPT = 7,                   /* $accept  */
-  YYSYMBOL_inicio = 8,                     /* inicio  */
+  YYSYMBOL_lista_expr = 8,                 /* lista_expr  */
   YYSYMBOL_expr = 9                        /* expr  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
@@ -443,9 +443,9 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  6
+#define YYFINAL  5
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   5
+#define YYLAST   7
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  7
@@ -503,7 +503,7 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    25,    25,    29,    30
+       0,    25,    25,    26,    30
 };
 #endif
 
@@ -520,7 +520,7 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "NUMERO", "SQRT",
-  "'('", "')'", "$accept", "inicio", "expr", YY_NULLPTR
+  "'('", "')'", "$accept", "lista_expr", "expr", YY_NULLPTR
 };
 
 static const char *
@@ -544,7 +544,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -3,    -4,    -2,     2,    -4,     1,    -4,    -1,    -4
+      -3,    -2,     0,    -4,    -1,    -4,    -4,     1,    -4
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -552,19 +552,19 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     4,     0,     0,     2,     0,     1,     0,     3
+       0,     0,     0,     3,     0,     1,     2,     0,     4
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -4,    -4,    -4
+      -4,    -4,     3
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     3,     4
+       0,     2,     3
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -572,31 +572,31 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       1,     2,     6,     5,     7,     8
+       5,     1,     7,     4,     1,     6,     0,     8
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     4,     0,     5,     3,     6
+       0,     4,     3,     5,     4,     2,    -1,     6
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     4,     8,     9,     5,     0,     3,     6
+       0,     4,     8,     9,     5,     0,     9,     3,     6
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     7,     8,     9,     9
+       0,     7,     8,     8,     9
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     4,     1
+       0,     2,     2,     1,     4
 };
 
 
@@ -1059,21 +1059,21 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* inicio: expr  */
+  case 2: /* lista_expr: lista_expr expr  */
 #line 25 "parser.y"
-         { printf("Resultado: %.10f\n", (yyvsp[0].numero)); }
+                    { printf("Resultado Raiz: %.10f\n", (yyvsp[0].numero)); }
 #line 1066 "parser.tab.c"
     break;
 
-  case 3: /* expr: SQRT '(' NUMERO ')'  */
-#line 29 "parser.y"
-                        { (yyval.numero) = newton_sqrt((yyvsp[-1].numero)); }
+  case 3: /* lista_expr: expr  */
+#line 26 "parser.y"
+                    { printf("Resultado Raiz: %.10f\n", (yyvsp[0].numero)); }
 #line 1072 "parser.tab.c"
     break;
 
-  case 4: /* expr: NUMERO  */
+  case 4: /* expr: SQRT '(' NUMERO ')'  */
 #line 30 "parser.y"
-                        { (yyval.numero) = (yyvsp[0].numero); }
+                        { (yyval.numero) = newton_sqrt((yyvsp[-1].numero)); }
 #line 1078 "parser.tab.c"
     break;
 
@@ -1275,10 +1275,23 @@ yyreturnlab:
 
 
 void yyerror(const char *s) {
-    fprintf(stderr, "Error: %s\n", s);
+    fprintf(stderr, "Error de sintaxis: %s\n", s);
 }
 
-int main(void) {
+int main(int argc, char **argv) {
+    // Abrir el archivo de texto
+    FILE *archivo = fopen("entrada.txt", "r");
+    if (!archivo) {
+        printf("Error: No se pudo abrir el archivo 'entrada.txt'\n");
+        return 1;
+    }
+
+    // Redirigir la entrada de Flex al archivo
+    yyin = archivo;
+
+    // Iniciar el análisis
     yyparse();
+
+    fclose(archivo);
     return 0;
 }
